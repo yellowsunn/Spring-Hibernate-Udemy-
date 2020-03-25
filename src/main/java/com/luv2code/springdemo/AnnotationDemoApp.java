@@ -9,13 +9,16 @@ public class AnnotationDemoApp {
                 new ClassPathXmlApplicationContext("applicationContext.xml");
 
         // get the bean from spring container
-        Coach theCoach = context.getBean("swimCoach", Coach.class);
+        Coach theCoach = context.getBean("tennisCoach", Coach.class);
+        Coach alphaCoach = context.getBean("tennisCoach", Coach.class);
 
-        // call a method on the bean
-        System.out.println(theCoach.getDailyWorkOut());
+        // check if they are the same
+        boolean result = (theCoach == alphaCoach);
 
-        // call method to get the daily fortune
-        System.out.println(theCoach.getDailyFortune());
+        // print out the result
+        System.out.println("\nPointing to the same object: " + result);
+        System.out.println("\nMemory location for theCoach" + theCoach);
+        System.out.println("\nMemory location for theCoach" + alphaCoach + "\n");
 
         // close the context
         context.close();
