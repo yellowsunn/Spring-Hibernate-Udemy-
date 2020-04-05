@@ -11,8 +11,12 @@
     <title>Title</title>
 </head>
 <body>
-Hello World of Spring!<br/>
+Hello World of Spring!
+<br/>
 
 Student name: ${param.studentName}
+<br/>
+
+The message: ${message}
 </body>
 </html>
