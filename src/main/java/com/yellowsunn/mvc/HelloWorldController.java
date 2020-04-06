@@ -3,6 +3,7 @@ package com.yellowsunn.mvc;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,6 +34,23 @@ public class HelloWorldController {
 
         // create the message
         String result = "Yo! " + theName;
+
+        // add message to the model
+        model.addAttribute("message", result);
+
+        return "helloWorld";
+    }
+
+    @GetMapping("/processFormVersionThree")
+    public String processFormVersionThree(@RequestParam("studentName") String theName, Model model) {
+//        @RequestParam("studentName") String theName 은 사실 아래 문장과 동일하다
+//        String theName = request.getParameter("studentName");
+
+        // convert the data to all caps
+        theName = theName.toUpperCase();
+
+        // create the message
+        String result = "Hey My Friend from v3!  " + theName;
 
         // add message to the model
         model.addAttribute("message", result);
