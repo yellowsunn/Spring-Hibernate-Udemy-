@@ -17,7 +17,7 @@
         Last name : <form:input path="lastName"/> <br/><br/>
         Country :
         <form:select path="country">
-            <form:options items="${student.countryOptions}"/>
+            <form:options items="${theCountryOptions}"/>
         </form:select> <br/><br/>
         <input type="submit" value="Submit"/>
     </form:form>
