@@ -19,6 +19,9 @@ public class Student {
     @Setter(AccessLevel.NONE)
     private LinkedHashMap<String, String> favoriteLanguageOptions;
 
+    // 운영체제
+    private String[] operatingSystems;
+
     public Student() {
         favoriteLanguageOptions = new LinkedHashMap<>();
 //        favoriteLanguageOptions.put("Java", "Java");
