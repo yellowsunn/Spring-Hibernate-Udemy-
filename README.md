@@ -117,3 +117,54 @@ public class HelloWorldController {
     }
 }
 ```
+
+## 3. Controller 객체 구현
+### Spring MVC form 태그
+* 기본 `<form>` 태그 대신에 스프링 MVC 에서 지원해주는 `<form>`태그를 사용할 수 있다.
+> **student-form.jsp**
+> * `<%@ taglib %>` 를 이용해서 외부 라이브러리를 불러올 수 있다.   
+>   * `prefix` 옵션으로 외부에서 불러올 태그를 설정할 수 있다.
+> * `<form:form>` 태그의 `modelAttribute` 옵션으로 전달 받은 모델 애트리뷰트를 불러올 수 있다.
+> * `<form:input>` 태그의 `path` 옵션으로 modelAttribute 로 받은 오브젝트의 필드를 getter와 setter로 바인딩 해준다.
+>   * 정확히는 setter가 아닌 필드 이름을 전달해준다
+
+``` jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<html>
+<head>
+    <title>Student Registration Form</title>
+</head>
+<body>
+    <form:form action="processForm" modelAttribute="student">
+        First name : <form:input path="firstName"/> <br><br/>
+        Last name : <form:input path="lastName"/> <br/><br/>
+        <input type="submit" value="Submit"/>
+    </form:form>
+</body>
+</html>
+```
+
+### @ModelAttribute
+* DispatcherServlet 의 HandlerAdapter 가 매개변수로 전달한 오브젝트를 모델로 전달할 수 있게 해준다.
+> **StudentController.java**
+> * @ModelAttribute 로 Student 객체를 모델로 넘겨준다.
+>   * Model.addAttribute("student", theStudent) 와 사실상 같다.
+> * HandlerAdapter 가 매개변수로 전달한 오브젝트의 setter 를 이용해서 객체를 생성해준다.
+>   * jsp 에서 전달받은 정보의 이름과 오브젝트의 필드이름을 비교해서 같으면 setter 로 값을 설정한다   
+>       ex) jsp 에서 "firstName" 의 이름을 가진 정보를 전달하면 HandlerAdpater 가 Student.setFirstName 으로 값을 세팅해준다.
+
+
+``` java
+
+@Controller
+@RequestMapping("/student")
+public class StudentController {
+    @PostMapping("/processForm")
+    public String processForm(@ModelAttribute("student") Student theStudent) {
+        // log the input data
+        System.out.println("Student : " + theStudent.getFirstName() + " " + theStudent.getLastName());
+        return "student-confirmation";
+    }
+}
+```
