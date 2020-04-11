@@ -19,8 +19,16 @@
 ### 서블릿 의존성 추가
 * 서블릿을 사용하기 위해서는 서블릿 라이브러리가 필요하다
 > **pom.xml**
-> * Maven Repository 사이트에서 Servlet API 검색 후 붙여넣기
+> * Maven 컴파일러 버전을 지정한다
+> * 의존성은 Maven Repository 사이트에서 Servlet API 검색 후 붙여넣기
+
 ``` xml
+<properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <maven.compiler.source>11</maven.compiler.source>
+  <maven.compiler.target>11</maven.compiler.target>
+</properties>
+
 <dependencies>
   <dependency>
     <groupId>org.springframework</groupId>
