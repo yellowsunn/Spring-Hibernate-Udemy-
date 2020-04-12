@@ -57,6 +57,7 @@ public class CustomerController {
     }
 }
 ```
+----------------------------------
 
 ## 2. Spring JSP 태그 \<form:errors\>
 * **\<form:errors\>** 로 유효성 검사가 실패한 경우 해당 태그로 에러 메시지를 띄울 수 있다.
@@ -87,6 +88,7 @@ public class CustomerController {
 </body>
 </html>
 ```
+----------------------------------
 
 ## 3. 공백문자가 입력되는 것을 방지하기
 * 공백문자가 HTML form 에서 전달되기 때문에 유효성 검사가 제대로 수행되지 못한다
