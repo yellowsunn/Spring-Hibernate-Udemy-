@@ -1,4 +1,4 @@
-package com.yellowsunn.mvc;
+package com.yellowsunn.mvc.hello;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +15,13 @@ public class HelloWorldController {
 
     @GetMapping("/showForm")
     public String showForm() {
-        return "helloWorld-form";
+        return "hello/helloWorld-form";
     }
 
     // need a controller method to process the HTML form
     @GetMapping("/processForm")
     public String processForm() {
-        return "helloWorld";
+        return "hello/helloWorld";
     }
 
     // new a controller method to read form data and
@@ -40,7 +40,7 @@ public class HelloWorldController {
         // add message to the model
         model.addAttribute("message", result);
 
-        return "helloWorld";
+        return "hello/helloWorld";
     }
 
     @GetMapping("/processFormVersionThree")
@@ -57,6 +57,6 @@ public class HelloWorldController {
         // add message to the model
         model.addAttribute("message", result);
 
-        return "helloWorld";
+        return "hello/helloWorld";
     }
 }
