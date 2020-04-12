@@ -17,6 +17,8 @@ public class Student {
     @Setter(AccessLevel.NONE)
     private LinkedHashMap<String, String> favoriteLanguageOptions;
 
+    private String[] operatingSystems;
+
     public Student() {
         favoriteLanguageOptions = new LinkedHashMap<>();
         favoriteLanguageOptions.put("Java", "자바");
