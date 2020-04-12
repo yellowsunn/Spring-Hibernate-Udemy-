@@ -1,119 +1,111 @@
-# Spring MVC
-## 1. 스프링 MVC 프로젝트 만들기
-### 프로젝트 생성
-    Maven 프로젝트 -> Create from archetype 체크 -> org.apache.maven.archetypes:maven-archetype-webapp 선택
-
-### web.xml 서블릿 버전 변경
-> **web.xml**
-> * 서블릿 4.0 버전으로 업데이트
-
-``` xml
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-    version="4.0">
+# Spring MVC - Form Tags and Data Binding
+## 1. JSP 에서 외부 태그 라이브러리 불러오기
+* Spring 프레임워크에서 지원하는 JSP form 태그를 `taglib` 로 불러올 수 있다.
+``` jsp
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 ```
 
-### 서블릿 의존성 추가
-* 서블릿을 사용하기 위해서는 서블릿 라이브러리가 필요하다
-> **pom.xml**
-> * Maven Repository 사이트에서 Servlet API 검색 후 붙여넣기
-``` xml
-<dependencies>
-  <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-webmvc</artifactId>
-    <version>5.2.5.RELEASE</version>
-  </dependency>
-  <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-  <dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>4.0.1</version>
-    <scope>provided</scope>
-  </dependency>
-</dependencies>
-```
---------------------------------------------------
-## 2. DispatcherServlet
-### DispatcherServlet 등록
-* 스프링 프레임 워크가 제공해 주는 서블릿
-* ApplicationContext 를 지정해주면 자동으로 생성해준다
-> **web.xml**
-> * DispatcherServlet 을 `/` 에 매핑했다
-> * `<init-param>` 에 `contextConfiguration` 으로 ApplicationContext 설정 파일을 지정해준다
-> * `<init-param>` 에 `contextClass` 로 특정 ApplicationContext 객체를 지정해줄 수도 있다
->   * 생략하면 자동으로 지정해준다
-``` xml
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-    <servlet-name>dispatcherServlet</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>WEB-INF/spring-mvc-demo-servlet.xml</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>dispatcherServlet</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-</web-app>
+------------------------------------------------------------------
+
+## 2. Spring 프레임워크 JSP Form 태그 사용
+> **student-form.jsp**
+> * `<form:form>`
+>   * **action 속성** 은 기본적으로 POST 방식이다
+>   * **modelAttribute 속성** 으로 모델 속성에 있는 오브젝트를 불러올 수 있다
+> * `path 속성`으로 데이터를 바인딩할 수 있다.
+>   * modelAttribute 로 불러온 오브젝트의 getter 와 setter 를 이용하여 필드를 바인딩한다.
+>   * jsp 페이지가 요청될때 getter가 실행되고, form 을 전송하는 경우에 setter가 실행된다
+> * `items 속성`으로 Collection, Map, array 타입의 객체를 전달받아 내부적으로 태그 리스트를 만든다.
+> * <form:checkbox>
+>   * `path 속성`으로 String[] 을 넘겨준다.
+>       * 체크박스는 복수 선택이 가능하므로 String[] 배열을 바인딩한다
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<html>
+<head>
+    <title>Student Registration Form</title>
+</head>
+<body>
+    <form:form action="processForm" modelAttribute="student">
+        First name : <form:input path="firstName"/> <br/><br/>
+        Last name : <form:input path="lastName"/> <br/><br/>
+        Country :
+        <form:select path="country">
+            <form:options items="${countryOptions}"/>
+        </form:select> <br/><br/>
+
+        Favorite Language :
+        <form:radiobuttons path="favoriteLanguage" items="${student.favoriteLanguageOptions}" delimiter=" "/> <br/><br/>
+
+        Operating Systems :
+        Linux<form:checkbox path="operatingSystems" value="Linux"/>
+        Mac OS<form:checkbox path="operatingSystems" value="Mac OS"/>
+        MS Windows<form:checkbox path="operatingSystems" value="MS Windows"/> <br/><br/>
+        <input type="submit" value="Submit"/>
+    </form:form>
+</body>
+</html>
 ```
 
-### DispatcherServlet 동작 원리
-<img src="https://baekjungho.github.io/images/posts/201906/m3.jpg"></img>
+## 3. 프로퍼티 파일로 Map 객체 생성하기
+### 프로퍼티 파일 작성
+> **countries.properties**
+```properties
+BR = Brazil
+FR = France
+CO = Colombia
+In = India
+```
 
-* **handlerMapping**
-  * 요청한 URL 에 해당하는 컨트롤러의 메소드를 찾는다
-  * `@Controller` 가 설정된 빈들을 찾아서 적절한 메소드를 찾아낸다.   
-        *ex) public java.lang.String com.yellowsunn.HelloWorldController.showForm() 을 반환*
+### ApplicationContext 설정파일에 프로퍼티 파일 등록하기
+> **appConfig.xml**
+```xml
+<beans>
+    <!-- 생략 -->
+    <util:properties id="countryOptions" location="WEB-INF/view/student/countries.properties"/>
+</beans>
+```
 
-* **handlerAdapter**
-  * handlerMapping 으로 찾아낸 컨트롤러의 메소드를 실행시킨다.
-  * 메소드를 실행시킬때 매개변수로 request, response, locale, model 등을 넘겨 줄 수 있다.
-  * 컨트롤러 메소드의 실행 결과를 handlerAdapter 가 받아 가공해 DispatcherServlet에 넘겨준다
-    * Model 과 View 정보 등 넘겨준다
-
-* **ViewResolver**
-  * HandlerMapping 에서 받은 View 정보로 적절한 View 위치를 찾는다.
-  * InternalResourceViewResolver 를 빈으로 등록해 prefix, suffix 값을 지정할 수도 있다.
-  #
-  > **ApplicationContext 설정파일(xml)**
-  ``` xml
-  <beans>
-      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-          <property name="prefix" value="/WEB-INF/view/"/>
-          <property name="suffix" value=".jsp"/>
-      </bean>
-  </beans>
-  ```
-
-* **View**
-  * ViewResolver 로 찾은 View 를 찾아 보여준다
-
-### Model 데이터 전달하기
-> **Controller.java**
-> * 매개변수로 request, model 을 전달해 줄 수 있다   
->    * handlerAdapter 가 자동으로 연결해준다
-> * `request.getParamter()` 로 Form 에서 전달한 데이터를 받는다.
->    * `<form><input type="text" name="studentName"></form>` 에서 전달 받음
-> * `model.addAttribute()` 를 이용해 Model 로 데이터를 전달한다.
+### @Value 로 프로퍼티 파일에 저장된 값 불러오기
+> **StudentController.java**
+> * @Value 어노테이션에서 속성으로 "#{프로퍼티 id}" 을 주면 객체에 맞게 자동으로 생성해준다
 ``` java
 @Controller
-public class HelloWorldController {
-    @GetMapping("/processForm")
-    public String letsShoutDude(HttpServletRequest request, Model model) {
-        String theName = request.getParameter("studentName");
-        theName = theName.toUpperCase();
-        String result = "Yo! " + theName;
-
-        model.addAttribute("message", result);
-        
-        return "helloWorld";
-    }
+@RequestMapping("/student")
+public class StudentController {
+    @Value("#{countryOptions}")
+    private Map<String, String> theCountryOptions;
+    
+    /* 생략 */
 }
+```
+
+## 4. JSTL 태그 라이브러리
+* 조건문, 반복문 등을 쉽게 작성할 수 있는 태그를 제공한다.
+### JSTL 태그 라이브러리 불러오기
+* JSTL 태그중에서 중요한 기능들을 담은 core 태그를 불러온다
+```jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+```
+
+### JSTL 태그의 forEach 태그
+* 반복문 forEach 를 실행할 수 있는 태그
+> **student-confirmation.jsp**
+> * items 속성에 있는 값들을 하나씩 꺼내서 var 속성의 속성값에 담는다.
+>   * 해당 속성값은 ${속성값 이름} 로 불러올 수 있다.
+```jsp
+<html>
+<head>
+    <title>Student Confirmation</title></head>
+<body>
+    <!-- 생략 -->
+    Operation Systems :
+    <ul>
+        <c:forEach var="temp" items="${student.operatingSystems}">
+            <li>${temp}</li>
+        </c:forEach>
+    </ul>
+</body>
+</html>
 ```
