@@ -14,7 +14,7 @@
 >   * URL 로 ?studentName=Hankook 이 전달된 경우 studentName 의 값인 Hankook 을 읽어들임
 > * 컨트롤러 메소드의 매개변수는 handlerAdapter 가 전달해준다
 >   * HttpServletRequest, Model 등
-> * 변경한 데이터를 모델 속성()에 추가하여 데이터를 전달해주고 있다.
+> * 변경한 데이터를 모델 속성(Attribute)에 추가하여 데이터를 전달해주고 있다.
 ``` java
 @Controller
 @RequestMapping("/hello")
