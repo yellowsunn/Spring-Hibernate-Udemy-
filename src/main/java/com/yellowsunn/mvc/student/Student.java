@@ -1,10 +1,11 @@
 package com.yellowsunn.mvc.student;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
+import java.util.LinkedHashMap;
+
 @Getter @Setter
 public class Student {
     private String firstName;
@@ -12,4 +13,15 @@ public class Student {
 
     private String country;
     private String favoriteLanguage;
+
+    @Setter(AccessLevel.NONE)
+    private LinkedHashMap<String, String> favoriteLanguageOptions;
+
+    public Student() {
+        favoriteLanguageOptions = new LinkedHashMap<>();
+        favoriteLanguageOptions.put("Java", "자바");
+        favoriteLanguageOptions.put("C#", "C#");
+        favoriteLanguageOptions.put("PHP", "PHP");
+        favoriteLanguageOptions.put("Ruby", "루비");
+    }
 }
