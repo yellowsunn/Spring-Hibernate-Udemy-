@@ -18,4 +18,9 @@
     </bean>
 
     <util:properties id="countryOptions" location="WEB-INF/view/student/countries.properties"/>
+
+    <!-- Load custom message resources-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames" value="messages"/>
+    </bean>
 </beans>
