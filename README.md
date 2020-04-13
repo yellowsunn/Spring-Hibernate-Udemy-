@@ -16,7 +16,7 @@ public class Customer {
     private int freePasses;
 }
 ```
-
+------------------------------
 ## 2. Regular Expression (정규 표현식)
 * 특정한 규칙을 가진 문자열의 집합을 표현하는 데 사용하는 형식 언어
 * `@Pattern` 으로 정규표현식을 이용하여 원하는 문자열 집합으로 제한할 수 있다
