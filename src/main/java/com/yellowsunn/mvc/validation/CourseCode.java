@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CourseCode {
     // define default course code
-    public String value() default "LUV";
+    public String[] value() default "LUV";
 
     // define default error message
     public String message() default "must start with LUV";
