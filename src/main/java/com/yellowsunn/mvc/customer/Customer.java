@@ -1,5 +1,6 @@
 package com.yellowsunn.mvc.customer;
 
+import com.yellowsunn.mvc.validation.CourseCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,4 +23,8 @@ public class Customer {
 
     @Pattern(regexp = "^[a-zA-Z0-9]{5}", message = "only 5 chars/digits")
     private String postalCode;
+
+//    @CourseCode
+    @CourseCode(value = "TOPS", message = "must start with TOPS")
+    private String courseCode;
 }
