@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Getter @Setter
+@ToString
 
 @Entity
 @Table(name = "student")
@@ -26,14 +27,4 @@ public class Student {
 
     @Column(name = "email")
     @NonNull private String email;
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }
