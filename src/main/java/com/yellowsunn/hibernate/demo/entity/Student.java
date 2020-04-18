@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Getter @Setter
 @ToString
 
@@ -20,11 +19,18 @@ public class Student {
     private int id;
 
     @Column(name = "first_name")
-    @NonNull private String firstName;
+    private String firstName;
 
     @Column(name = "last_name")
-    @NonNull private String lastName;
+    private String lastName;
 
     @Column(name = "email")
-    @NonNull private String email;
+    private String email;
+
+    @Builder
+    public Student(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 }

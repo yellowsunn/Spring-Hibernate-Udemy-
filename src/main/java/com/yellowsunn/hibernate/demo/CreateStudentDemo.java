@@ -13,14 +13,17 @@ public class CreateStudentDemo {
                 .addAnnotatedClass(Student.class)
                 .buildSessionFactory();
 
-        // create session
-
         try (factory) {
+            // create session
             Session session = factory.getCurrentSession();
+
             // create a student object
             System.out.println("Creating new student object...");
-            Student tempStudent = new Student("Paul", "Wall", "paul@luv2code.com");
-            System.out.println(tempStudent.toString());
+            Student tempStudent = Student.builder()
+                    .firstName("Paul")
+                    .lastName("Wall")
+                    .email("paul@luv2code.com").build();
+
             // start a transaction
             session.beginTransaction();
 
