@@ -37,10 +37,18 @@ public class StudentDemo {
             displayStudents(theStudents);
 
             // query students: lastName= 'Doe'
-            theStudents = session.createQuery("from Student s where s.lastName='Doe'").getResultList();
-
-            // display the students
             System.out.println("\n\nStudents who have last name of Doe");
+            theStudents = session.createQuery("from Student s where s.lastName='Doe'").getResultList();
+            displayStudents(theStudents);
+
+            // query students: lastName='Doe' OR firstName='Daffy'
+            System.out.println("\n\nStudents who have last name of Doe OR first name Daffy");
+            theStudents = session.createQuery("from Student s where s.lastName='Doe' or s.firstName='Daffy'").getResultList();
+            displayStudents(theStudents);
+
+            // query students where email LIKE '%gmail.com'
+            System.out.println("\n\nStudents who email ends with gmail.com");
+            theStudents = session.createQuery("from Student s where s.email LIKE '%gmail.com'").getResultList();
             displayStudents(theStudents);
 
             // commit the transaction
