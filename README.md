@@ -1,6 +1,23 @@
 # Hibernate Configuration with Annotations
-## 1. Hibernate 설명
-### Hibernate는 객체 모델링(Object Oriented Modeling)과 관계형 데이터 모델링(Relational Data Modeling) 사이의 불일치를 해결해 주는 ORM(Object Relation Mapping) 도구다.
+## 1. Hibernate
+* **Hibernate는 객체 모델링(Object Oriented Modeling)과 관계형 데이터 모델링(Relational Data Modeling) 사이의 불일치를 해결해 주는 ORM(Object Relation Mapping) 도구다.**
+
+### Hibernate & MySQL Connector 의존성 추가
+```xml
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.19</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.4.14.Final</version>
+</dependency>
+
+```
 
 ## 2. Hibernate 설정파일 생성하기
 * 기본 설정파일 이름은 _Hibernate.cfg.xml_ 이다
