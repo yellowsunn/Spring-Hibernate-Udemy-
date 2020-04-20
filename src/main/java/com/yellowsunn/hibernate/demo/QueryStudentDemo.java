@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class StudentDemo {
+public class QueryStudentDemo {
     public static void main(String[] args) {
         // create session factory
         SessionFactory factory = new Configuration()
