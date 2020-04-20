@@ -17,23 +17,38 @@ public class StudentDemo {
             // create session
             Session session = factory.getCurrentSession();
 
-            // create 3 student objects
+            // create a student object
             System.out.println("Creating new student object...");
-            Student tempStudent1 = Student.builder().firstName("John").lastName("Doe").email("john@luv2code.com").build();
-            Student tempStudent2 = Student.builder().firstName("Mary").lastName("Public").email("mary@luv2code.com").build();
-            Student tempStudent3 = Student.builder().firstName("Bonita").lastName("Applebum").email("bonita@luv2code.com").build();
+            Student tempStudent = Student.builder().firstName("Daffy").lastName("Duck").email("daffy@luv2code.com").build();
 
             // start a transaction
             session.beginTransaction();
 
             // save the student object
-            System.out.println("Saving the students...");
-            session.save(tempStudent1);
-            session.save(tempStudent2);
-            session.save(tempStudent3);
+            System.out.println("Saving the student...");
+            System.out.println(tempStudent);
+            session.save(tempStudent);
 
             // commit transaction
             session.getTransaction().commit();
+
+            // MY NEW CODE
+            // find out the student's id : primary key
+            System.out.println("Saved student. Generated id : " + tempStudent.getId());
+
+            // now get a new session and start transaction
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            // retrieve student based on the id : primary key
+            System.out.println("\nGetting student with id : " + tempStudent.getId());
+
+            Student myStudent = session.get(Student.class, tempStudent.getId());
+            System.out.println("Get complete : " + myStudent);
+
+            // commit the transaction
+            session.getTransaction().commit();
+
             System.out.println("Done!");
         }
     }
