@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.List;
+
 public class StudentDemo {
     public static void main(String[] args) {
         // create session factory
@@ -13,43 +15,44 @@ public class StudentDemo {
                 .addAnnotatedClass(Student.class)
                 .buildSessionFactory();
 
+        Session session = factory.getCurrentSession();
+
         try (factory) {
-            // create session
-            Session session = factory.getCurrentSession();
-
-            // create a student object
-            System.out.println("Creating new student object...");
-            Student tempStudent = Student.builder().firstName("Daffy").lastName("Duck").email("daffy@luv2code.com").build();
-
             // start a transaction
             session.beginTransaction();
 
-            // save the student object
-            System.out.println("Saving the student...");
-            System.out.println(tempStudent);
-            session.save(tempStudent);
+//            Student tempStudent1 = Student.builder().firstName("John").lastName("Doe").email("john@luv2code.com").build();
+//            Student tempStudent2 = Student.builder().firstName("Mary").lastName("Public").email("mary@luv2code.com").build();
+//            Student tempStudent3 = Student.builder().firstName("Bonita").lastName("Applebum").email("bonita@luv2code.com").build();
+//            Student tempStudent4 = Student.builder().firstName("Daffy").lastName("Duck").email("daffy@luv2code.com").build();
+//            session.save(tempStudent1);
+//            session.save(tempStudent2);
+//            session.save(tempStudent3);
+//            session.save(tempStudent4);
 
-            // commit transaction
-            session.getTransaction().commit();
+            // query students
+            List<Student> theStudents = session.createQuery("from Student").getResultList();
 
-            // MY NEW CODE
-            // find out the student's id : primary key
-            System.out.println("Saved student. Generated id : " + tempStudent.getId());
+            // display the students
+            displayStudents(theStudents);
 
-            // now get a new session and start transaction
-            session = factory.getCurrentSession();
-            session.beginTransaction();
+            // query students: lastName= 'Doe'
+            theStudents = session.createQuery("from Student s where s.lastName='Doe'").getResultList();
 
-            // retrieve student based on the id : primary key
-            System.out.println("\nGetting student with id : " + tempStudent.getId());
-
-            Student myStudent = session.get(Student.class, tempStudent.getId());
-            System.out.println("Get complete : " + myStudent);
+            // display the students
+            System.out.println("\n\nStudents who have last name of Doe");
+            displayStudents(theStudents);
 
             // commit the transaction
             session.getTransaction().commit();
 
             System.out.println("Done!");
+        }
+    }
+
+    private static void displayStudents(List<Student> theStudents) {
+        for (Student tempStudent : theStudents) {
+            System.out.println(tempStudent);
         }
     }
 }
