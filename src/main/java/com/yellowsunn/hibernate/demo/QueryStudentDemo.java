@@ -21,15 +21,6 @@ public class QueryStudentDemo {
             // start a transaction
             session.beginTransaction();
 
-//            Student tempStudent1 = Student.builder().firstName("John").lastName("Doe").email("john@luv2code.com").build();
-//            Student tempStudent2 = Student.builder().firstName("Mary").lastName("Public").email("mary@luv2code.com").build();
-//            Student tempStudent3 = Student.builder().firstName("Bonita").lastName("Applebum").email("bonita@luv2code.com").build();
-//            Student tempStudent4 = Student.builder().firstName("Daffy").lastName("Duck").email("daffy@luv2code.com").build();
-//            session.save(tempStudent1);
-//            session.save(tempStudent2);
-//            session.save(tempStudent3);
-//            session.save(tempStudent4);
-
             // query students
             List<Student> theStudents = session.createQuery("from Student").getResultList();
 
