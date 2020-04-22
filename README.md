@@ -97,3 +97,41 @@ public class CreateStudentDemo {
 ```
 
 -----------------------------------------------
+
+## 3. Update
+* SQL 쿼리문 UPDATE를 수행해준다
+
+### Setter 를 이용하는 방법
+> **UpdateStudentDemo.java**
+> * Session.get() 으로 Entity 클래스의 인스턴스를 가져올 수 있다.
+> * 가져온 Entity 인스턴스의 setter 를 호출하면 자동으로 UPDATE 쿼리가 실행된다
+```java
+  Student myStudent = session.get(Student.class, studentId);
+  myStudent.setFirstName("Scooby");
+```
+
+### HQL 을 이용하는 방법
+> **UpdateStudentDemo.java**
+> * Session.`createQuery` : 주어진 HQL 문장으로 Query 인스턴스를 생성한다
+>   * Query.`executeUpdate()` : UPDATE 나 DELETE 쿼리를 실행한다
+```java
+  session.createQuery("UPDATE Student SET email='foo@gmail.com'").executeUpdate();
+```
+
+----------------------------------------------------
+## 4. Delete
+* SQL 쿼리문 DELETE를 수행해준다.
+
+### Session.delete() 를 이용하는 방법
+> **DeleteStudentDemo.java**
+> * Session.`delete()` : DB와 연결된 Entity 인스턴스를 매개변수로 받아 해당 데이터를 제거한다.
+```java
+  Student myStudent = session.get(Student.class, studentId);
+  session.delete(myStudent);
+```
+
+### HQL 을 이용하는 방법
+> **DeleteStudentDemo.java**
+```java
+  session.createQuery("DELETE FROM Student WHERE id=2").executeUpdate();
+```
